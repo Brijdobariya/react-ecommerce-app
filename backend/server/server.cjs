@@ -36,4 +36,14 @@ app.get("/", (req, res) => {
   res.send("hello ok");
 });
 
-app.post;
+app.post("/register", (req, res) => {
+  const { username, email, password, phone } = req.body;
+  const sql = `INSERT INTO customer(username, email, password, phone) VALUES (?,?,?,?)`;
+  db.query(sql, [username, email, password, phone], (error, result) => {
+    if (error) {
+      console.log(error);
+    } else {
+      res.status(201).send(result);
+    }
+  });
+});
