@@ -1,36 +1,44 @@
-import React from "react";
-import { Layout, Menu, theme } from "antd";
+import React, { useState } from "react";
+import { Layout, Menu } from "antd";
 import { NavLink, Outlet } from "react-router-dom";
-import SearchBox from "../Search/Search";
 import { AiOutlineShoppingCart } from "react-icons/ai";
+import SearchBox from "../Search/Search";
 
 const { Header, Content, Footer } = Layout;
 
 const NavBar: React.FC = () => {
+  const [count, setCount] = useState(0);
+
+  const handleClick = () => {
+    setCount(count + 1);
+  };
   return (
     <>
       <Layout>
-        <Header className="flex items-center">
-          <Menu theme="light" mode="horizontal" className="flex-1 min-w-0">
-            <Menu.Item key="1">
+        <Header>
+          <Menu theme="light" mode="horizontal">
+            <Menu.Item key="1" style={{ marginRight: "auto" }}>
               <NavLink to="/">Logo</NavLink>
             </Menu.Item>
-            <Menu.Item key="2">
+
+            <Menu.Item key="2" style={{ margin: "auto" }}>
               <SearchBox />
             </Menu.Item>
-            <Menu.Item key="3">
+
+            <Menu.Item key="3" style={{ marginLeft: "auto" }}>
               <NavLink to="/product">Latest Product</NavLink>
             </Menu.Item>
             <Menu.Item key="4">
-              <NavLink to="/cart">
-                <AiOutlineShoppingCart size={25} className="mt-5" />
-              </NavLink>
-            </Menu.Item>
-            <Menu.Item key="5">
               <NavLink to="/login">Login</NavLink>
             </Menu.Item>
-            <Menu.Item key="6">
+            <Menu.Item key="5">
               <NavLink to="/signup">Sign Up</NavLink>
+            </Menu.Item>
+            <Menu.Item key="6">
+              <NavLink to="/cart" className="flex" onClick={handleClick}>
+                <AiOutlineShoppingCart size={25} className="mt-5" />
+                {count}
+              </NavLink>
             </Menu.Item>
           </Menu>
         </Header>

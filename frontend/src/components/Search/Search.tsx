@@ -14,7 +14,7 @@ const SearchBox = () => {
         placeholder="input search text"
         allowClear
         onSearch={onSearch}
-        className={"w-full mt-4"}
+        className={"w-96 mt-4"}
       />
     </Space>
   );
