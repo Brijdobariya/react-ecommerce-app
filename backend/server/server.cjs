@@ -47,3 +47,37 @@ app.post("/register", (req, res) => {
     }
   });
 });
+
+app.post("/product", (req, res) => {
+  const {
+    p_name,
+    p_description,
+    p_price,
+    p_color,
+    p_category,
+    p_stock,
+    p_size,
+    p_image,
+  } = req.body;
+
+  db.query(
+    sql,
+    [
+      p_name,
+      p_description,
+      p_price,
+      p_color,
+      p_category,
+      p_stock,
+      p_size,
+      p_image,
+    ],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.status(201).json(result);
+      }
+    }
+  );
+});
