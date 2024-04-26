@@ -37,7 +37,7 @@ export const category = [
   },
   {
     id: 4,
-    name: "accessories",
+    name: "Accessories",
     image:
       "https://images-cdn.ubuy.co.in/633afb8923dcd90f834c301e-mftek-60.jpg",
   },
@@ -51,5 +51,26 @@ export const category = [
     id: 5,
     name: "Mobile",
     image: "https://m.media-amazon.com/images/I/81Os1SDWpcL._SX679_.jpg",
+  },
+];
+
+export const carouselItem = [
+  {
+    id: 1,
+    title: "Best in Segment",
+    image:
+      "https://www.cnet.com/a/img/resize/967611af79de66e3d9a8722ee3afff34887073f8/hub/2023/09/12/2d9d37cc-7d99-4f81-8da2-8f3a674f4243/screenshot-2023-09-12-at-10-38-30-am.png?auto=webp&fit=crop&height=360&width=640",
+  },
+  {
+    id: 2,
+    title: "Best Laptop in Segment",
+    image:
+      "https://in.store.asus.com/media/catalog/product/9/0/90nr08a5-m00330-g513rc-hn061w_1_.jpg?width=439&height=439&store=en_IN&image-type=image",
+  },
+  {
+    id: 3,
+    title: "Best Headphone in Segment",
+    image:
+      "https://t3.ftcdn.net/jpg/00/91/07/82/360_F_91078252_i7cx2uJzDzgoJGDdUAHtVAcpjugVauX9.jpg",
   },
 ];
