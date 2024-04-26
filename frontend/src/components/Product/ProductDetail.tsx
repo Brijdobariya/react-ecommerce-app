@@ -1,7 +1,7 @@
 interface ProductDetailProps {}
 import { useState } from "react";
 import { toast } from "react-toastify";
-import CButton from "../Countom/CButton";
+import CButton from "../Custom/CButton";
 import Product from "./Product";
 
 const ProductDetail: React.FC<ProductDetailProps> = () => {
@@ -76,7 +76,7 @@ const ProductDetail: React.FC<ProductDetailProps> = () => {
                 <strong>MRP : 70000</strong>
                 <p className="text-green-500 font-bold">10% off</p>
               </div>
-              <p className="text-lg line-through">
+              <p className="text-lg font-light italic line-through">
                 MRP : <span className="">80000</span>
               </p>
             </div>
