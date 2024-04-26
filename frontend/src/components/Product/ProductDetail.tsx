@@ -76,16 +76,32 @@ const ProductDetail: React.FC<ProductDetailProps> = () => {
                 <strong>MRP : 70000</strong>
                 <p className="text-green-500 font-bold">10% off</p>
               </div>
-              <p className="text-lg">
+              <p className="text-lg line-through">
                 MRP : <span className="">80000</span>
               </p>
             </div>
             <div className="color flex gap-3">
-              <button className="rounded-full w-8 h-8 bg-black border-2 border-gray-600"></button>
-              <button className="rounded-full w-8 h-8 bg-zinc-600 border-2 border-gray-600"></button>
-              <button className="rounded-full w-8 h-8 bg-red-500 border-2 border-gray-600"></button>
-              <button className="rounded-full w-8 h-8 bg-yellow-400 border-2 border-gray-600"></button>
-              <button className="rounded-full w-8 h-8 bg-purple-500 border-2 border-gray-600"></button>
+              <button
+                className="rounded-full w-8 h-8 bg-black border-2 border-gray-600"
+                onClick={() => toast.success("Black")}
+              ></button>
+              <button
+                className="rounded-full w-8 h-8 bg-zinc-600 border-2 border-gray-600"
+                onClick={() => toast.success("silvar")}
+              ></button>
+              <button
+                className="rounded-full w-8 h-8 bg-red-500 border-2 border-gray-600"
+                onClick={() => toast.success("red")}
+              ></button>
+              <button
+                className="rounded-full w-8 h-8 bg-yellow-400 border-2 border-gray-600"
+                onClick={() => toast.success("yellow")}
+              ></button>
+              <button
+                className="rounded-full w-8 h-8 bg-purple-500 border-2 border-gray-600"
+                onClick={() => toast.success("purple")}
+              ></button>
+              {/* <CButton className="rounded-full w-8 h-8 bg-purple-500 border-2 border-gray-600"></CButton> */}
             </div>
             <div className="count flex w-32 text-center">
               <button
@@ -104,7 +120,7 @@ const ProductDetail: React.FC<ProductDetailProps> = () => {
             </div>
             <div className="flex flex-col md:flex-row gap-4">
               <CButton
-                className=""
+                className="bg-orange-400"
                 onClick={() => toast.success("item added to cart")}
               >
                 Add to Cart
@@ -116,6 +132,10 @@ const ProductDetail: React.FC<ProductDetailProps> = () => {
           </div>
         </div>
       </div>
+      {/* <div className="container mx-auto mt-10">
+        <h1 className="text-3xl font-bold text-center">Product Details</h1>
+        <div className="grid md:grid-cols-3 grid-flow-row"></div>
+      </div> */}
       <div className="container mx-auto mt-10">
         <h1 className="text-3xl font-bold text-center">Related Products</h1>
         <Product />
