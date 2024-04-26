@@ -18,7 +18,7 @@ const ProductDetail: React.FC<ProductDetailProps> = () => {
   };
   return (
     <>
-      <div className="main grid md:grid-cols-2 sm:grid-flow-row md:p-10 py-10">
+      <div className="main grid md:grid-cols-2 sm:grid-flow-row md:p-10 mx-auto py-10">
         <div className="left flex-1 flex md:flex-row flex-col-reverse gap-4 ">
           <div className="left-image-list flex md:flex-col flex-row gap-5 ">
             <div className="w-20 h-20 border-2 border-gray-400">

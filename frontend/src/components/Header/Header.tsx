@@ -42,7 +42,7 @@ const NavBar: React.FC = () => {
             </Menu.Item>
           </Menu>
         </Header>
-        <Content className="flex-1 px-12 min-h-full">
+        <Content className="flex-1 md:px-12 p-5 min-h-full">
           <Outlet />
         </Content>
         <Footer className="text-center">All right received @</Footer>
