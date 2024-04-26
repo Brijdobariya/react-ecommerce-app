@@ -15,16 +15,14 @@ const NavBar: React.FC = () => {
   return (
     <>
       <Layout>
-        <Header>
-          <Menu theme="light" mode="horizontal">
+        <Header className="w-full">
+          <Menu theme="light" mode="horizontal" className="w-full">
             <Menu.Item key="1" style={{ marginRight: "auto" }}>
               <NavLink to="/">Logo</NavLink>
             </Menu.Item>
-
             <Menu.Item key="2" style={{ margin: "auto" }}>
               <SearchBox />
             </Menu.Item>
-
             <Menu.Item key="3" style={{ marginLeft: "auto" }}>
               <NavLink to="/product">Latest Product</NavLink>
             </Menu.Item>
@@ -52,3 +50,5 @@ const NavBar: React.FC = () => {
 };
 
 export default NavBar;
+
+// cn-06ktxv-64180-281-1w5s

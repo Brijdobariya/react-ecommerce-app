@@ -16,6 +16,7 @@ import AuthContectProvider from "./context/AuthContext";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ProductAdd from "./components/Product/ProductAdd";
 
 const router = (
   <Router>
@@ -27,6 +28,7 @@ const router = (
         <Route path="/cart" element={<Cart />} />
         <Route path="/product" element={<Product />} />
         <Route path="/productd" element={<ProductDetail />} />
+        <Route path="/add-product" element={<ProductAdd />} />
         <Route path="/search" element={<Search />} />
         <Route path="/" element={<App />} />
       </Route>
