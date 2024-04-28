@@ -16,7 +16,7 @@ const NavBar: React.FC = () => {
     <>
       <Layout>
         <Header className="w-full">
-          <Menu theme="light" mode="horizontal" className="w-full">
+          <Menu theme="dark" mode="horizontal" className="w-full">
             <Menu.Item key="1" style={{ marginRight: "auto" }}>
               <NavLink to="/">Logo</NavLink>
             </Menu.Item>
