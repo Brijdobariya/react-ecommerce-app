@@ -1,34 +1,35 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Layout, Menu } from "antd";
 import { NavLink, Outlet } from "react-router-dom";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import SearchBox from "../Search/Search";
+import { useAuth } from "../../context/AuthContext";
 
 const { Header, Content, Footer } = Layout;
 
 const NavBar: React.FC = () => {
   const [count, setCount] = useState(0);
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
+  const { user } = useAuth();
 
   useEffect(() => {
     setInterval(() => {
       localStorage.getItem("token");
-
       if (!!localStorage.getItem("token")) {
         setLoggedIn(!loggedIn);
       }
     }, 1000);
   }, []);
 
-  const handleLogout = () => {
+  const handleLogout = useCallback(() => {
     localStorage.removeItem("token");
     setLoggedIn(false);
     window.location.href = "/";
-  };
+  }, []);
 
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     setCount(count + 1);
-  };
+  }, [count]);
 
   return (
     <>
@@ -54,13 +55,17 @@ const NavBar: React.FC = () => {
                 </Menu.Item>
               </>
             ) : (
-              <Menu.Item key="7">
-                <NavLink to="" onClick={handleLogout}>
-                  Log out
-                </NavLink>
-              </Menu.Item>
+              <>
+                <Menu.Item key="7">
+                  <NavLink to="/profile">{user.username}</NavLink>
+                </Menu.Item>
+                <Menu.Item key="8">
+                  <NavLink to="" onClick={handleLogout}>
+                    Log out
+                  </NavLink>
+                </Menu.Item>
+              </>
             )}
-
             <Menu.Item key="6">
               <NavLink to="/cart" className="flex" onClick={handleClick}>
                 <AiOutlineShoppingCart size={25} className="mt-5" />
@@ -79,5 +84,3 @@ const NavBar: React.FC = () => {
 };
 
 export default NavBar;
-
-// cn-06ktxv-64180-281-1w5s

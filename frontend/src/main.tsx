@@ -13,6 +13,7 @@ import Product from "./components/Product/Product";
 import Search from "./components/Search/Search";
 import ProductDetail from "./components/Product/ProductDetail";
 import AuthContectProvider from "./context/AuthContext";
+import Profile from "./components/Auth/Profile";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -29,6 +30,7 @@ const router = (
         <Route path="/product" element={<Product />} />
         <Route path="/productd" element={<ProductDetail />} />
         <Route path="/add-product" element={<ProductAdd />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/search" element={<Search />} />
         <Route path="/" element={<App />} />
       </Route>
