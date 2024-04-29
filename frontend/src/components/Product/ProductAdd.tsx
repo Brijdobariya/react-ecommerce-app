@@ -13,16 +13,6 @@ const normFile = (e: any) => {
   return e?.fileList;
 };
 const ProductAdd: React.FC = () => {
-  const [formData, setFormData] = useState<any>({
-    title: "",
-    price: "",
-    category: "",
-    description: "",
-    image: "",
-    color: "",
-    stock: "",
-  });
-  const [color, setColor] = useState<string>("#000000");
   return (
     <>
       <div className="flex flex-col w-screen h-screen justify-center items-center mx-auto ">
