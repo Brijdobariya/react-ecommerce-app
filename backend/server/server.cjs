@@ -32,7 +32,7 @@ db.connect((error) => {
   }
 });
  
-app.get("/api/data", (req, res) => {
+app.get("/data", (req, res) => {
  const sql="SELECT * FROM `customer`"
  db.query(sql,(error,result)=>{
   if (error) {
