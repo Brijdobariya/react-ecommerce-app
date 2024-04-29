@@ -1,7 +1,10 @@
 import type { FormProps } from "antd";
 import { Button, Form, Input } from "antd";
 import React from "react";
-
+ 
+import { toast } from "react-toastify";
+import { useAuth } from "../../context/AuthContext";
+ 
 type FieldType = {
   username?: string;
   email?: string;
@@ -9,22 +12,39 @@ type FieldType = {
   password?: string;
   remember?: string;
 };
-
+ 
 const SignUp: React.FC = () => {
+  const { Signup ,data } = useAuth();
   const onFinish: FormProps<FieldType>["onFinish"] = (values: object) => {
+    const logindata=data.filter((item:any)=>item.email===values.email)
+    
+  if(logindata.length <= 0){
     if (values.mobile.length > 10 || values.mobile.length < 10) {
       console.log("error");
-    } else {
-      console.log("Success:", values);
+      toast.error("mobile number should be 10 digit")
     }
-  };
+     else {
+      Signup(values);
+      console.log("Success:", values);
+      toast.success("Signup successfully")
+    }
+    }
+    else{
+     // console.log("login failed")
+      toast.error("login failed")
+    }
 
+
+
+   
+  };
+ 
   const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (
     errorInfo
   ) => {
     console.log("Failed:", errorInfo);
   };
-
+ 
   return (
     <>
       <div className="w-screen h-screen flex justify-center items-center">
@@ -59,7 +79,7 @@ const SignUp: React.FC = () => {
           >
             <Input maxLength={10} />
           </Form.Item>
-
+ 
           <Form.Item<FieldType>
             label="Password"
             name="password"
@@ -67,7 +87,7 @@ const SignUp: React.FC = () => {
           >
             <Input.Password />
           </Form.Item>
-
+ 
           <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
             <Button type="primary" htmlType="submit">
               SignIn
@@ -78,5 +98,5 @@ const SignUp: React.FC = () => {
     </>
   );
 };
-
+ 
 export default SignUp;
