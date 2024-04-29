@@ -4,6 +4,7 @@ import React from "react";
 
 import { toast } from "react-toastify";
 import { useAuth } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 type FieldType = {
   username?: string;
@@ -14,6 +15,7 @@ type FieldType = {
 };
 
 const SignUp: React.FC = () => {
+  const navigate = useNavigate();
   const { Signup, data } = useAuth();
   const onFinish: FormProps<FieldType>["onFinish"] = (values: object) => {
     const logindata = data.filter((item: any) => item.email === values.email);
@@ -25,6 +27,7 @@ const SignUp: React.FC = () => {
       } else {
         Signup(values);
         console.log("Success:", values);
+        navigate("/login");
         toast.success("Signup successfully");
       }
     } else {

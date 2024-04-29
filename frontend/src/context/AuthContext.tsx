@@ -8,9 +8,8 @@ export const useAuth = () => useContext(AuthContext);
 
 const AuthContextProvider: React.FC = ({ children }: any) => {
   const [data, setData] = useState<object>();
-  // useEffect (()=>{
-  //   fach()
-  // },[])
+  const [user, setUser] = useState<object>();
+
   const fach = async () => {
     await axios
       .get("http://localhost:3000/api/data")
@@ -26,11 +25,11 @@ const AuthContextProvider: React.FC = ({ children }: any) => {
     );
     console.log(logindata);
     if (logindata.length > 0) {
-      // console.log("login sucess")
+      setUser(...logindata);
       toast.success("login sucessfull...");
     } else {
-      // console.log("login failed")
-      toast.error("invaild username and password...");
+      setUser(false);
+      toast.error("invaild username and password");
     }
   };
 
@@ -47,11 +46,13 @@ const AuthContextProvider: React.FC = ({ children }: any) => {
 
     // console.log(userame, password, phone, enail);
   };
+  console.log(!!user);
 
   const value = {
     Login,
     Signup,
     data,
+    user,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

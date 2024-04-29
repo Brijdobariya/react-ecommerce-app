@@ -2,6 +2,7 @@ import type { FormProps } from "antd";
 import { Button, Form, Input } from "antd";
 import React from "react";
 import { useAuth } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 type FieldType = {
   email?: string;
@@ -10,13 +11,18 @@ type FieldType = {
 };
 
 const LogIn: React.FC = () => {
-  const { Login } = useAuth();
+  const navigate = useNavigate();
+  const { Login, user } = useAuth();
 
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
     console.log("Success:", values);
-
     Login(values);
   };
+
+  // if user then navigate to home page
+  if (!!user) {
+    navigate("/");
+  }
 
   const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (
     errorInfo
