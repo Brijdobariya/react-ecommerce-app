@@ -49,11 +49,22 @@ app.post("/register", (req, res) => {
 });
 
 app.post("/product", (req, res) => {
-  const { p_name, p_description, p_price, p_color,p_category, p_stock, p_image} = req.body;
-  const sql='INSERT INTO `product`(`p_name`, `p_description`, `p_price`, `P_category`, `p_stock`, `p_image`, `p_color`) VALUES (?,?,?,?,?,?,?)'
+  const {
+    p_name,
+    p_description,
+    p_price,
+    p_color,
+    p_category,
+    p_stock,
+    p_image,
+  } = req.body;
+  const sql =
+    "INSERT INTO `product`(`p_name`, `p_description`, `p_price`, `P_category`, `p_stock`, `p_image`, `p_color`) VALUES (?,?,?,?,?,?,?)";
 
   db.query(
-    sql, [p_name, p_description, p_price, p_color,p_category, p_stock, p_image], (err, result) => {
+    sql,
+    [p_name, p_description, p_price, p_color, p_category, p_stock, p_image],
+    (err, result) => {
       if (err) {
         console.log(err);
       } else {

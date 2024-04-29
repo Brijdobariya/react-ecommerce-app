@@ -16,6 +16,7 @@ const ProductDetail: React.FC<ProductDetailProps> = () => {
     }
     setCount(count - 1);
   };
+
   return (
     <>
       <div className="main grid md:grid-cols-2 sm:grid-flow-row md:p-10 mx-auto py-10">

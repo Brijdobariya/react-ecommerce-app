@@ -12,6 +12,7 @@ const NavBar: React.FC = () => {
   const handleClick = () => {
     setCount(count + 1);
   };
+
   return (
     <>
       <Layout>
