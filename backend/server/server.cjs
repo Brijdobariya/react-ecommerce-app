@@ -36,10 +36,10 @@ app.get("/", (req, res) => {
   res.send("hello ok");
 });
 
-app.post("/register", (req, res) => {
-  const { username, email, password, phone } = req.body;
+app.post("/api/register", (req, res) => {
+  const { username, email, password, mobile } = req.body;
   const sql = `INSERT INTO customer(username, email, password, phone) VALUES (?,?,?,?)`;
-  db.query(sql, [username, email, password, phone], (error, result) => {
+  db.query(sql, [username, email, password, mobile], (error, result) => {
     if (error) {
       console.log(error);
     } else {

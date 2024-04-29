@@ -2,6 +2,8 @@ import type { FormProps } from "antd";
 import { Button, Form, Input } from "antd";
 import React from "react";
 
+import { useAuth } from "../../context/AuthContext";
+
 type FieldType = {
   username?: string;
   email?: string;
@@ -11,10 +13,12 @@ type FieldType = {
 };
 
 const SignUp: React.FC = () => {
+  const { Signup } = useAuth();
   const onFinish: FormProps<FieldType>["onFinish"] = (values: object) => {
     if (values.mobile.length > 10 || values.mobile.length < 10) {
       console.log("error");
     } else {
+      Signup(values);
       console.log("Success:", values);
     }
   };
