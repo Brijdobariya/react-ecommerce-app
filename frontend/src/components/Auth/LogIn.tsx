@@ -15,7 +15,7 @@ const LogIn: React.FC = () => {
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
     console.log("Success:", values);
     const { username, password } = values;
-    Login(username, password);
+    Login(values);
   };
 
   const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (

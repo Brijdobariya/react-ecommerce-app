@@ -32,12 +32,19 @@ db.connect((error) => {
   }
 });
 
-app.get("/", (req, res) => {
-  res.send("hello ok");
+app.get("/data", (req, res) => {
+  const sql = "SELECT * FROM `customer`";
+  db.query(sql, (error, result) => {
+    if (error) {
+      console.log(error);
+    } else {
+      res.status(201).send(result);
+    }
+  });
 });
 
-app.post("/api/register", (req, res) => {
-  const { username, email, password, mobile } = req.body;
+app.post("/register", (req, res) => {
+  const { username, email, password, phone } = req.body;
   const sql = `INSERT INTO customer(username, email, password, phone) VALUES (?,?,?,?)`;
   db.query(sql, [username, email, password, mobile], (error, result) => {
     if (error) {
