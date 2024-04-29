@@ -5,6 +5,9 @@ const bodyParser = require("body-parser");
 require("dotenv").config();
 const app = express();
 
+// jason web token
+const jwt = require("jsonwebtoken");
+
 const corsOptions = {
   origin: "http://localhost:5173",
   optionSuccessStatus: 200,
@@ -32,6 +35,9 @@ db.connect((error) => {
   }
 });
 
+// generating json web token with private key
+const token = jwt.sign({ foo: "bar" }, process.env.JWT_PRIVATE_KEY);
+
 app.get("/api/data", (req, res) => {
   const sql = "SELECT * FROM `customer`";
   db.query(sql, (error, result) => {
@@ -45,8 +51,8 @@ app.get("/api/data", (req, res) => {
 
 app.post("/api/register", (req, res) => {
   const { username, email, password, mobile } = req.body;
-  const sql = `INSERT INTO customer(username, email, password, phone) VALUES (?,?,?,?)`;
-  db.query(sql, [username, email, password, mobile], (error, result) => {
+  const sql = `INSERT INTO customer(username, email, password, phone, token) VALUES (?,?,?,?,?)`;
+  db.query(sql, [username, email, password, mobile, token], (error, result) => {
     if (error) {
       console.log(error);
     } else {

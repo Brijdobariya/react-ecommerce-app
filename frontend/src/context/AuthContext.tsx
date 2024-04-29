@@ -46,7 +46,7 @@ const AuthContextProvider: React.FC = ({ children }: any) => {
 
     // console.log(userame, password, phone, enail);
   };
-  console.log(!!user);
+  console.log(data);
 
   const value = {
     Login,

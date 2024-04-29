@@ -16,6 +16,7 @@ type FieldType = {
 
 const SignUp: React.FC = () => {
   const navigate = useNavigate();
+
   const { Signup, data } = useAuth();
   const onFinish: FormProps<FieldType>["onFinish"] = (values: object) => {
     const logindata = data.filter((item: any) => item.email === values.email);
@@ -26,8 +27,8 @@ const SignUp: React.FC = () => {
         toast.error("mobile number should be 10 digit");
       } else {
         Signup(values);
-        console.log("Success:", values);
         navigate("/login");
+        console.log("Success:", values);
         toast.success("Signup successfully");
       }
     } else {
@@ -35,6 +36,8 @@ const SignUp: React.FC = () => {
       toast.error("login failed");
     }
   };
+
+  console.log(data);
 
   const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (
     errorInfo

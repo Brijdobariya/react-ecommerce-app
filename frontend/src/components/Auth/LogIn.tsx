@@ -21,6 +21,7 @@ const LogIn: React.FC = () => {
 
   // if user then navigate to home page
   if (!!user) {
+    localStorage.setItem("token", user.token);
     navigate("/");
   }
 

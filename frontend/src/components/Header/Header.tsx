@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Layout, Menu } from "antd";
 import { NavLink, Outlet } from "react-router-dom";
 import { AiOutlineShoppingCart } from "react-icons/ai";
@@ -8,6 +8,23 @@ const { Header, Content, Footer } = Layout;
 
 const NavBar: React.FC = () => {
   const [count, setCount] = useState(0);
+  const [loggedIn, setLoggedIn] = useState<boolean>(false);
+
+  useEffect(() => {
+    setInterval(() => {
+      localStorage.getItem("token");
+
+      if (!!localStorage.getItem("token")) {
+        setLoggedIn(!loggedIn);
+      }
+    }, 1000);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setLoggedIn(false);
+    window.location.href = "/";
+  };
 
   const handleClick = () => {
     setCount(count + 1);
@@ -27,12 +44,23 @@ const NavBar: React.FC = () => {
             <Menu.Item key="3" style={{ marginLeft: "auto" }}>
               <NavLink to="/product">Latest Product</NavLink>
             </Menu.Item>
-            <Menu.Item key="4">
-              <NavLink to="/login">Login</NavLink>
-            </Menu.Item>
-            <Menu.Item key="5">
-              <NavLink to="/signup">Sign Up</NavLink>
-            </Menu.Item>
+            {!loggedIn ? (
+              <>
+                <Menu.Item key="4">
+                  <NavLink to="/login">Login</NavLink>
+                </Menu.Item>
+                <Menu.Item key="5">
+                  <NavLink to="/signup">Sign Up</NavLink>
+                </Menu.Item>
+              </>
+            ) : (
+              <Menu.Item key="7">
+                <NavLink to="" onClick={handleLogout}>
+                  Log out
+                </NavLink>
+              </Menu.Item>
+            )}
+
             <Menu.Item key="6">
               <NavLink to="/cart" className="flex" onClick={handleClick}>
                 <AiOutlineShoppingCart size={25} className="mt-5" />
