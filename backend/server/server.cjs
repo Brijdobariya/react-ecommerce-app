@@ -32,7 +32,7 @@ db.connect((error) => {
   }
 });
 
-app.get("/data", (req, res) => {
+app.get("/api/data", (req, res) => {
   const sql = "SELECT * FROM `customer`";
   db.query(sql, (error, result) => {
     if (error) {
@@ -43,8 +43,8 @@ app.get("/data", (req, res) => {
   });
 });
 
-app.post("/register", (req, res) => {
-  const { username, email, password, phone } = req.body;
+app.post("/api/register", (req, res) => {
+  const { username, email, password, mobile } = req.body;
   const sql = `INSERT INTO customer(username, email, password, phone) VALUES (?,?,?,?)`;
   db.query(sql, [username, email, password, mobile], (error, result) => {
     if (error) {
@@ -55,7 +55,7 @@ app.post("/register", (req, res) => {
   });
 });
 
-app.post("/product", (req, res) => {
+app.post("/api/product", (req, res) => {
   const {
     p_name,
     p_description,

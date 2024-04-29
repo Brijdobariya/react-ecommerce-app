@@ -4,7 +4,7 @@ import React from "react";
 import { useAuth } from "../../context/AuthContext";
 
 type FieldType = {
-  username?: string;
+  email?: string;
   password?: string;
   remember?: string;
 };
@@ -14,7 +14,7 @@ const LogIn: React.FC = () => {
 
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
     console.log("Success:", values);
-    const { username, password } = values;
+
     Login(values);
   };
 
@@ -37,8 +37,8 @@ const LogIn: React.FC = () => {
           className="w-[40%]"
         >
           <Form.Item<FieldType>
-            label="Username"
-            name="username"
+            label="email"
+            name="email"
             rules={[{ required: true, message: "Please input your username!" }]}
           >
             <Input />
