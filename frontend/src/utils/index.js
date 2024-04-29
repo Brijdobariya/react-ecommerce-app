@@ -57,7 +57,7 @@ export const category = [
 export const carouselItem = [
   {
     id: 1,
-    title: "Best in Segment",
+    title: "Best iPhone in Segment",
     image:
       "https://www.cnet.com/a/img/resize/967611af79de66e3d9a8722ee3afff34887073f8/hub/2023/09/12/2d9d37cc-7d99-4f81-8da2-8f3a674f4243/screenshot-2023-09-12-at-10-38-30-am.png?auto=webp&fit=crop&height=360&width=640",
   },
@@ -71,6 +71,7 @@ export const carouselItem = [
     id: 3,
     title: "Best Headphone in Segment",
     image:
-      "https://t3.ftcdn.net/jpg/00/91/07/82/360_F_91078252_i7cx2uJzDzgoJGDdUAHtVAcpjugVauX9.jpg",
+      "https://images.pexels.com/photos/1649771/pexels-photo-1649771.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    // "https://images.pexels.com/photos/610945/pexels-photo-610945.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
   },
 ];

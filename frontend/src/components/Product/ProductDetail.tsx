@@ -73,11 +73,11 @@ const ProductDetail: React.FC<ProductDetailProps> = () => {
             </div>
             <div className="price">
               <div className="flex gap-4 text-2xl">
-                <strong>MRP : 70000</strong>
+                <strong>70000 &#8377;</strong>
                 <p className="text-green-500 font-bold">10% off</p>
               </div>
               <p className="text-lg font-light italic line-through">
-                MRP : <span className="">80000</span>
+                <span className="">80000 &#8377;</span>
               </p>
             </div>
             <div className="color flex gap-3">
