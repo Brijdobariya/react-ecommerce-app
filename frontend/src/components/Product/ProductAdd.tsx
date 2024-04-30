@@ -27,7 +27,10 @@ const normFile = (e: any) => {
   if (Array.isArray(e)) {
     return e;
   }
-  return e?.fileList.map((file: any) => file.originFileObj);
+  return e?.fileList.map((file: any) => ({
+    ...file,
+    uid: file.uid || Math.random(),
+  }));
 };
 
 const ProductAdd: React.FC = () => {
@@ -56,7 +59,7 @@ const ProductAdd: React.FC = () => {
 
     if (data.p_image && Array.isArray(data.p_image)) {
       data.p_image.forEach((file) => {
-        formData.append("p_image", file);
+        formData.append("p_image", file.originFileObj);
       });
     }
 
@@ -90,7 +93,7 @@ const ProductAdd: React.FC = () => {
     toast.error("Error while adding product");
   };
 
-  const handleChangeColor = (e: any) => {
+  const handleChangeColor = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValues((prevData) => ({
       ...prevData,
       p_newColor: e.target.value,
@@ -107,16 +110,12 @@ const ProductAdd: React.FC = () => {
     }
   };
 
-  const handleColorRemove = (index) => {
+  const handleColorRemove = (color: string) => {
     setValues((prevData) => ({
       ...prevData,
-      p_color: prevData.p_color.filter((_, i) => _ !== index),
+      p_color: prevData.p_color.filter((c) => c !== color),
     }));
-    console.log("click");
   };
-
-  console.log("inside function", value.p_color);
-  console.log(value);
 
   return (
     <>
@@ -175,7 +174,7 @@ const ProductAdd: React.FC = () => {
             <TextArea rows={4} />
           </Form.Item>
 
-          <Form.Item<FieldType>
+          <Form.Item
             label="Image"
             valuePropName="fileList"
             name="p_image"
@@ -184,11 +183,21 @@ const ProductAdd: React.FC = () => {
               { required: false, message: "Please input Product image!" },
             ]}
           >
-            <Upload action="/upload.do" listType="picture-card" maxCount={4}>
-              <button style={{ border: 0, background: "none" }} type="button">
-                <PlusOutlined />
-                <div style={{ marginTop: 8 }}>Upload</div>
-              </button>
+            <Upload
+              action="/upload.do"
+              listType="picture-card"
+              maxCount={4}
+              fileList={value.p_image}
+              onChange={({ fileList }) =>
+                setValues((prev) => ({ ...prev, p_image: fileList }))
+              }
+            >
+              {value.p_image && value.p_image.length >= 4 ? null : (
+                <div>
+                  <PlusOutlined />
+                  <div style={{ marginTop: 8 }}>Upload</div>
+                </div>
+              )}
             </Upload>
           </Form.Item>
           <Form.Item<FieldType>
