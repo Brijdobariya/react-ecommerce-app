@@ -42,22 +42,26 @@ const ProductAdd: React.FC = () => {
     const { p_color, ...rest } = values;
     const data = {
       ...rest,
-      p_color: p_color ? (p_color.length > 0 ? p_color : value.p_color) : value.p_color,
+      p_color: p_color
+        ? p_color.length > 0
+          ? p_color
+          : value.p_color
+        : value.p_color,
     };
-  
+
     const formData = new FormData();
     for (const key in data) {
       if (data.hasOwnProperty(key)) {
         formData.append(key, data[key]);
       }
     }
-  
+
     if (data.p_image && Array.isArray(data.p_image)) {
       data.p_image.forEach((file) => {
         formData.append("p_image", file);
       });
     }
-  
+
     try {
       axios
         .post("http://localhost:3000/api/product", formData, {

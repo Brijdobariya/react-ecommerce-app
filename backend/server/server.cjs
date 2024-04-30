@@ -112,52 +112,50 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // Route for handling product creation with image upload
-app.post(
-  "/api/product",
-  upload.array("p_image"),
-  async (req, res) => {
-    const { p_name, p_description, p_price, p_color, p_category, p_stock } =
-      req.body;
+app.post("/api/product", upload.array("p_image"), async (req, res) => {
+  const { p_name, p_description, p_price, p_color, p_category, p_stock } =
+    req.body;
 
-    // Convert the color array to a comma-separated string
-    const colorString = Array.isArray(p_color) ? p_color.join(",") : p_color;
+  // Convert the color array to a comma-separated string
+  const colorString = Array.isArray(p_color) ? p_color.join(",") : p_color;
 
-    // Access the uploaded files through req.files
-    const files = req.files;
+  // Access the uploaded files through req.files
+  const files = req.files;
 
-    const sql =
-      "INSERT INTO `product`(`p_title`, `p_description`, `p_price`, `P_category`, `p_stock`, `p_color`, `p_image`) VALUES (?,?,?,?,?,?,?)";
+  const sql =
+    "INSERT INTO `product`(`p_title`, `p_description`, `p_price`, `P_category`, `p_stock`, `p_color`, `p_image`) VALUES (?,?,?,?,?,?,?)";
 
-    try {
-      pool.getConnection((err, connection) => {
-        if (err) throw err;
-        connection.query(
-          sql,
-          [
-            p_name,
-            p_description,
-            p_price,
-            p_category,
-            p_stock,
-            colorString,
-            files.map((file) => file.filename).join(","), // Convert file names to comma-separated string
-          ],
-          (err, result) => {
-            connection.release();
-            if (err) {
-              console.error(err);
-              res.status(500).send({ error: "Internal Server Error" });
-            } else {
-              res.status(201).send({ result, files: files.map((file) => file.filename) });
-            }
+  try {
+    pool.getConnection((err, connection) => {
+      if (err) throw err;
+      connection.query(
+        sql,
+        [
+          p_name,
+          p_description,
+          p_price,
+          p_category,
+          p_stock,
+          colorString,
+          files.map((file) => file.filename).join(","), // Convert file names to comma-separated string
+        ],
+        (err, result) => {
+          connection.release();
+          if (err) {
+            console.error(err);
+            res.status(500).send({ error: "Internal Server Error" });
+          } else {
+            res
+              .status(201)
+              .send({ result, files: files.map((file) => file.filename) });
           }
-        );
-      });
-    } catch (err) {
-      console.error(err);
-      res.status(500).send({ error: "Internal Server Error" });
-    }
+        }
+      );
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ error: "Internal Server Error" });
   }
-);
+});
 
 app.listen(PORT, () => console.log("Connected...", PORT));
