@@ -18,6 +18,7 @@ import Profile from "./components/Auth/Profile";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProductAdd from "./components/Product/ProductAdd";
+import ProductContextProvider from "./context/ProductContext";
 
 const router = (
   <Router>
@@ -40,7 +41,9 @@ const router = (
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <AuthContectProvider>
-    <React.StrictMode>{router}</React.StrictMode>
+    <ProductContextProvider>
+      <React.StrictMode>{router}</React.StrictMode>
+    </ProductContextProvider>
     <ToastContainer />
   </AuthContectProvider>
 );
