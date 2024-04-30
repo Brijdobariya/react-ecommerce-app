@@ -74,6 +74,7 @@ const ProductAdd: React.FC = () => {
           console.log(res.data);
           // Clear the form
           form.resetFields();
+          setValues({ p_color: [] });
           // Handle success case
           toast.success("Product added...");
         })
