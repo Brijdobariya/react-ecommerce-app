@@ -1,49 +1,86 @@
-
-import { useEffect, useState } from "react";
-import { FormProps } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import { ColorPicker, Form, Input, Select, Slider, Upload } from "antd";
-import { IoAddSharp } from "react-icons/io5";
+import { Form, FormProps, Input, Select, Slider, Upload } from "antd";
 import axios from "axios";
- 
-import CButton from "../../components/Custom/CButton";
+import { useState } from "react";
+import { IoAddSharp } from "react-icons/io5";
+
 import { toast } from "react-toastify";
- 
+import CButton from "../../components/Custom/CButton";
+
 const { TextArea } = Input;
- 
+
 type FieldType = {
   p_name?: string;
   p_price?: number;
   p_category?: string;
   p_description?: string;
   p_image?: any[]; // Changed to array of any
-  p_color?: Object[];
+  p_color?: string[];
   p_newColor?: string;
   p_size?: Array<number>;
   p_newSize?: string;
   p_rating?: number;
   p_stock?: number;
 };
- 
+
 console.log("outside");
- 
+
 const normFile = (e: any) => {
   if (Array.isArray(e)) {
     return e;
   }
   return e?.fileList.map((file: any) => file.originFileObj);
 };
- 
+
 const ProductAdd: React.FC = () => {
   const [form] = Form.useForm();
   const [value, setValues] = useState<FieldType>({
     p_color: [], // Initialize color as an empty array
   });
- 
-  const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
-    setValues({ ...values, p_color: value.p_color }); // Merge values and color array
-  };
 
+  const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
+    const { p_color, ...rest } = values;
+    const data = {
+      ...rest,
+      p_color: p_color ? (p_color.length > 0 ? p_color : value.p_color) : value.p_color,
+    };
+  
+    const formData = new FormData();
+    for (const key in data) {
+      if (data.hasOwnProperty(key)) {
+        formData.append(key, data[key]);
+      }
+    }
+  
+    if (data.p_image && Array.isArray(data.p_image)) {
+      data.p_image.forEach((file) => {
+        formData.append("p_image", file);
+      });
+    }
+  
+    try {
+      axios
+        .post("http://localhost:3000/api/product", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
+          console.log(res.data);
+          // Clear the form
+          form.resetFields();
+          // Handle success case
+          toast.success("Product added...");
+        })
+        .catch((err) => {
+          console.error(err);
+          // Handle error case
+          toast.error("Error while adding product");
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (
     errorInfo
   ) => {
@@ -77,29 +114,12 @@ const ProductAdd: React.FC = () => {
   };
 
   const handleSubmit = () => {
-    try {
-      axios
-        .post("http://localhost:3000/api/product", value)
-        .then((res) => {
-          console.log(res.data);
-          // Clear the form
-          form.resetFields();
-          // Handle success case
-          toast.success("Product added...");
-        })
-        .catch((err) => {
-          console.error(err);
-          // Handle error case
-          toast.error("Error while adding product");
-        });
-    } catch (error) {
-      console.log(error);
-    }
+    form.submit();
   };
 
   console.log("inside function", value.p_color);
   console.log(value);
- 
+
   return (
     <>
       <div className="flex flex-col w-full h-full justify-center items-center mx-auto ">
@@ -156,7 +176,7 @@ const ProductAdd: React.FC = () => {
           >
             <TextArea rows={4} />
           </Form.Item>
- 
+
           <Form.Item<FieldType>
             label="Image"
             valuePropName="fileList"
@@ -221,6 +241,5 @@ const ProductAdd: React.FC = () => {
     </>
   );
 };
- 
+
 export default ProductAdd;
- 
