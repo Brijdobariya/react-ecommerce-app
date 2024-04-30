@@ -1,6 +1,6 @@
 import type { FormProps } from "antd";
 import { Button, Form, Input } from "antd";
-import React from "react";
+import React, { useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
@@ -20,10 +20,12 @@ const LogIn: React.FC = () => {
   };
 
   // if user then navigate to home page
-  if (!!user) {
-    localStorage.setItem("token", user.token);
-    navigate("/");
-  }
+  useEffect(() => {
+    if (!!user) {
+      localStorage.setItem("token", user.token);
+      navigate("/");
+    }
+  }, []);
 
   const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (
     errorInfo

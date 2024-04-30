@@ -10,21 +10,33 @@ const { Header, Content, Footer } = Layout;
 const NavBar: React.FC = () => {
   const [count, setCount] = useState(0);
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
-  const { user } = useAuth();
+  const { user, fetchData } = useAuth();
 
   useEffect(() => {
-    setInterval(() => {
-      localStorage.getItem("token");
-      if (!!localStorage.getItem("token")) {
-        setLoggedIn(!loggedIn);
+    const token = localStorage.getItem("token");
+    setLoggedIn(!!token);
+    if (token) {
+      fetchData();
+    }
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const token = localStorage.getItem("token");
+      if (token !== null && !loggedIn) {
+        setLoggedIn(true);
+        fetchData();
+      } else if (token === null && loggedIn) {
+        setLoggedIn(false);
       }
     }, 1000);
-  }, []);
+
+    return () => clearInterval(interval);
+  }, [loggedIn, fetchData]);
 
   const handleLogout = useCallback(() => {
     localStorage.removeItem("token");
     setLoggedIn(false);
-    window.location.href = "/";
   }, []);
 
   const handleClick = useCallback(() => {
@@ -57,7 +69,7 @@ const NavBar: React.FC = () => {
             ) : (
               <>
                 <Menu.Item key="7">
-                  <NavLink to="/profile">{user.username}</NavLink>
+                  <NavLink to="/profile">{user?.username}</NavLink>
                 </Menu.Item>
                 <Menu.Item key="8">
                   <NavLink to="" onClick={handleLogout}>

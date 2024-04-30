@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { category, carouselItem } from "../utils/index";
 
 import { Carousel } from "antd";
 import Carousel1 from "./Carousel";
 import Product from "../components/Product/Product";
-
-// import "react-responsive-carousel/lib/styles/carousel.min.css";
-// import { Carousel } from "react-responsive-carousel";
 
 const Home = () => {
   const [toggle, setToggle] = useState(true);
@@ -31,7 +28,7 @@ const Home = () => {
         </Carousel>
       )}
 
-      <div className="flex flex-1 justify-center items-center mt-5">
+      <div className="flex flex-1 justify-center overflow-x-hidden mx-auto items-center mt-5">
         {category.map((item: any) => (
           <div key={item.id} className="m-3">
             <div className="w-52 h-44">
@@ -45,9 +42,15 @@ const Home = () => {
           </div>
         ))}
       </div>
-      <div className="product py-4">
+      <div className="product py-4 mx-auto ">
         <h1 className="text-3xl font-bold py-3">Feature Products</h1>
-        <Product />
+        <div className="flex flex-1 gap-4 flex-wrap">
+          <Product />
+          <Product />
+          <Product />
+          <Product />
+          <Product />
+        </div>
       </div>
     </>
   );
