@@ -98,10 +98,17 @@ app.post("/api/register", async (req, res) => {
 app.post("/api/product", async (req, res) => {
   const { p_name, p_description, p_price, p_color, p_category, p_stock } = req.body;
 
+<<<<<<< HEAD
   // Convert the color array to a comma-separated string
   const colorString = p_color.join(",");
 
   const sql = "INSERT INTO `product`(`p_title`, `p_description`, `p_price`, `P_category`, `p_stock`, `p_color`) VALUES (?,?,?,?,?,?)";
+=======
+  const colorString = p_color.join(",");
+
+  const sql =
+    "INSERT INTO `product`(`p_title`, `p_description`, `p_price`, `P_category`, `p_stock`, `p_color`) VALUES (?,?,?,?,?,?)";
+>>>>>>> a8496c420d7b4b75059dd4bace98deb060c3af72
 
   try {
     pool.getConnection((err, connection) => {

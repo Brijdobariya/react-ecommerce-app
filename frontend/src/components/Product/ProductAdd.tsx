@@ -43,21 +43,21 @@ const ProductAdd: React.FC = () => {
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
     setValues({ ...values, p_color: value.p_color }); // Merge values and color array
   };
- 
+
   const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (
     errorInfo
   ) => {
     console.log("Failed:", errorInfo);
     toast.error("Error while adding product");
   };
- 
+
   const handleChangeColor = (e: any) => {
     setValues((prevData) => ({
       ...prevData,
       p_newColor: e.target.value,
     }));
   };
- 
+
   const handleAddColor = () => {
     if (value.p_newColor) {
       setValues((prev: any) => ({
@@ -67,7 +67,7 @@ const ProductAdd: React.FC = () => {
       }));
     }
   };
- 
+
   const handleColorRemove = (index) => {
     setValues((prevData) => ({
       ...prevData,
@@ -75,7 +75,7 @@ const ProductAdd: React.FC = () => {
     }));
     console.log("click");
   };
- 
+
   const handleSubmit = () => {
     try {
       axios
@@ -96,7 +96,7 @@ const ProductAdd: React.FC = () => {
       console.log(error);
     }
   };
- 
+
   console.log("inside function", value.p_color);
   console.log(value);
  
