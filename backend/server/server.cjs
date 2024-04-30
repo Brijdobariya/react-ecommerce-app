@@ -79,6 +79,8 @@ app.post("/api/product", async (req, res) => {
   const { p_name, p_description, p_price, p_color, p_category, p_stock } =
     req.body;
 
+  const colorString = p_color.join(",");
+
   const sql =
     "INSERT INTO `product`(`p_title`, `p_description`, `p_price`, `P_category`, `p_stock`, `p_color`) VALUES (?,?,?,?,?,?)";
 
@@ -87,7 +89,7 @@ app.post("/api/product", async (req, res) => {
       if (err) throw err;
       connection.query(
         sql,
-        [p_name, p_description, p_price, p_color, p_category, p_stock],
+        [p_name, p_description, p_price, p_category, p_stock, colorString],
         (err, result) => {
           connection.release();
           if (err) {

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FormProps } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { ColorPicker, Form, Input, Select, Slider, Upload } from "antd";
@@ -41,25 +41,6 @@ const ProductAdd: React.FC = () => {
 
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
     setValues({ ...values, p_color: value.p_color }); // Merge values and color array
-
-    try {
-      axios
-        .post("http://localhost:3000/api/product", value)
-        .then((res) => {
-          console.log(res.data);
-          // Clear the form
-          form.resetFields();
-          // Handle success case
-          toast.success("Product added...");
-        })
-        .catch((err) => {
-          console.error(err);
-          // Handle error case
-          toast.error("Error while adding product");
-        });
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (
@@ -83,6 +64,35 @@ const ProductAdd: React.FC = () => {
         p_color: [...prev.p_color!, prev.p_newColor],
         p_newColor: "",
       }));
+    }
+  };
+
+  const handleColorRemove = (index) => {
+    setValues((prevData) => ({
+      ...prevData,
+      p_color: prevData.p_color.filter((_, i) => _ !== index),
+    }));
+    console.log("click");
+  };
+
+  const handleSubmit = () => {
+    try {
+      axios
+        .post("http://localhost:3000/api/product", value)
+        .then((res) => {
+          console.log(res.data);
+          // Clear the form
+          form.resetFields();
+          // Handle success case
+          toast.success("Product added...");
+        })
+        .catch((err) => {
+          console.error(err);
+          // Handle error case
+          toast.error("Error while adding product");
+        });
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -192,12 +202,16 @@ const ProductAdd: React.FC = () => {
                     height: 40,
                     borderRadius: 100,
                   }}
+                  onClick={() => handleColorRemove(color)}
                 />
               ))}
             </div>
           </Form.Item>
           <Form.Item label="" className="items-center justify-center flex-1 ">
-            <CButton className="bg-zinc-950 hover:bg-zinc-700 text-white">
+            <CButton
+              className="bg-zinc-950 hover:bg-zinc-700 text-white"
+              onClick={handleSubmit}
+            >
               Add Product
             </CButton>
           </Form.Item>
