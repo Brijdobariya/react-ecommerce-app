@@ -33,7 +33,7 @@ const SignUp: React.FC = () => {
       }
     } else {
       // console.log("login failed")
-      toast.error("login failed");
+      toast.error("registration failed");
     }
   };
 

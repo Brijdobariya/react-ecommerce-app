@@ -3,6 +3,7 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
 const AuthContext = createContext();
+
 export const useAuth = () => useContext(AuthContext);
 
 const AuthContextProvider: React.FC = ({ children }: any) => {
