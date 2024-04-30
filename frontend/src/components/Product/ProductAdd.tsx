@@ -23,8 +23,6 @@ type FieldType = {
   p_stock?: number;
 };
 
-console.log("outside");
-
 const normFile = (e: any) => {
   if (Array.isArray(e)) {
     return e;
@@ -117,10 +115,6 @@ const ProductAdd: React.FC = () => {
     console.log("click");
   };
 
-  const handleSubmit = () => {
-    form.submit();
-  };
-
   console.log("inside function", value.p_color);
   console.log(value);
 
@@ -190,7 +184,7 @@ const ProductAdd: React.FC = () => {
               { required: false, message: "Please input Product image!" },
             ]}
           >
-            <Upload action="/upload.do" listType="picture-card">
+            <Upload action="/upload.do" listType="picture-card" maxCount={4}>
               <button style={{ border: 0, background: "none" }} type="button">
                 <PlusOutlined />
                 <div style={{ marginTop: 8 }}>Upload</div>
@@ -233,10 +227,7 @@ const ProductAdd: React.FC = () => {
             </div>
           </Form.Item>
           <Form.Item label="" className="items-center justify-center flex-1 ">
-            <CButton
-              className="bg-zinc-950 hover:bg-zinc-700 text-white"
-              onClick={handleSubmit}
-            >
+            <CButton className="bg-zinc-950 hover:bg-zinc-700 text-white">
               Add Product
             </CButton>
           </Form.Item>
