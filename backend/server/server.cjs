@@ -69,33 +69,30 @@ app.post("/api/register", async (req, res) => {
         }
       );
     });
+    console.log(sql);
   } catch (err) {
     res.status(500).send({ err });
   }
 });
 
 app.post("/api/product", async (req, res) => {
-  const {
-    p_name,
-    p_description,
-    p_price,
-    p_color,
-    p_category,
-    p_stock,
-    p_image,
-  } = req.body;
+  const { p_name, p_description, p_price, p_color, p_category, p_stock } =
+    req.body;
+
   const sql =
-    "INSERT INTO `product`(`p_name`, `p_description`, `p_price`, `P_category`, `p_stock`, `p_image`, `p_color`) VALUES (?,?,?,?,?,?,?)";
+    "INSERT INTO `product`(`p_title`, `p_description`, `p_price`, `P_category`, `p_stock`, `p_color`) VALUES (?,?,?,?,?,?)";
+
   try {
     pool.getConnection((err, connection) => {
       if (err) throw err;
       connection.query(
         sql,
-        [p_name, p_description, p_price, p_color, p_category, p_stock, p_image],
+        [p_name, p_description, p_price, p_color, p_category, p_stock],
         (err, result) => {
-          connection.release(); // Release the connection back to the pool
+          connection.release();
           if (err) {
-            res.status(500).send({ err });
+            console.error(err);
+            res.status(500).send({ error: "Internal Server Error" });
           } else {
             res.status(201).send({ result });
           }
@@ -103,7 +100,8 @@ app.post("/api/product", async (req, res) => {
       );
     });
   } catch (err) {
-    res.status(500).send({ err });
+    console.error(err);
+    res.status(500).send({ error: "Internal Server Error" });
   }
 });
 

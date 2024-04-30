@@ -3,6 +3,7 @@ import { FormProps } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { ColorPicker, Form, Input, Select, Slider, Upload } from "antd";
 import { IoAddSharp } from "react-icons/io5";
+import axios from "axios";
 
 import CButton from "../../components/Custom/CButton";
 import { toast } from "react-toastify";
@@ -10,17 +11,17 @@ import { toast } from "react-toastify";
 const { TextArea } = Input;
 
 type FieldType = {
-  title?: string;
-  price?: number;
-  category?: string;
-  description?: string;
-  image?: string;
-  color?: string[];
-  newColor?: string;
-  size?: Array<number>;
-  newSize?: string;
-  rating?: number;
-  stock?: number;
+  p_name?: string;
+  p_price?: number;
+  p_category?: string;
+  p_description?: string;
+  p_image?: any[]; // Changed to array of any
+  p_color?: Object[];
+  p_newColor?: string;
+  p_size?: Array<number>;
+  p_newSize?: string;
+  p_rating?: number;
+  p_stock?: number;
 };
 
 console.log("outside");
@@ -29,22 +30,36 @@ const normFile = (e: any) => {
   if (Array.isArray(e)) {
     return e;
   }
-  return e?.fileList;
+  return e?.fileList.map((file: any) => file.originFileObj);
 };
 
 const ProductAdd: React.FC = () => {
   const [form] = Form.useForm();
-  const [productData, setProductData] = useState<any>([]);
   const [value, setValues] = useState<FieldType>({
-    color: [], // Initialize color as an empty array
+    p_color: [], // Initialize color as an empty array
   });
 
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
-    setProductData({ ...values, color: value.color }); // it can be done like this also add color array using this values and spread operator
-    setValues(values);
-    // console.log("Success:", values);
-    toast.success("Product added...");
-    form.resetFields();
+    setValues({ ...values, p_color: value.p_color }); // Merge values and color array
+
+    try {
+      axios
+        .post("http://localhost:3000/api/product", value)
+        .then((res) => {
+          console.log(res.data);
+          // Clear the form
+          form.resetFields();
+          // Handle success case
+          toast.success("Product added...");
+        })
+        .catch((err) => {
+          console.error(err);
+          // Handle error case
+          toast.error("Error while adding product");
+        });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (
@@ -57,26 +72,28 @@ const ProductAdd: React.FC = () => {
   const handleChangeColor = (e: any) => {
     setValues((prevData) => ({
       ...prevData,
-      newColor: e.target.value,
+      p_newColor: e.target.value,
     }));
   };
 
   const handleAddColor = () => {
-    if (value.newColor) {
+    if (value.p_newColor) {
       setValues((prev: any) => ({
         ...prev,
-        color: [...prev.color!, prev.newColor],
-        newColor: "",
+        p_color: [...prev.p_color!, prev.p_newColor],
+        p_newColor: "",
       }));
     }
   };
-  console.log("indide sunction", value.color);
-  console.log(productData);
+
+  console.log("inside function", value.p_color);
+  console.log(value);
 
   return (
     <>
       <div className="flex flex-col w-full h-full justify-center items-center mx-auto ">
         <Form
+          form={form}
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 14 }}
           layout="horizontal"
@@ -89,14 +106,14 @@ const ProductAdd: React.FC = () => {
           </h1>
           <Form.Item<FieldType>
             label="Title"
-            name="title"
+            name="p_name"
             rules={[{ required: true, message: "Please input Product name!" }]}
           >
             <Input />
           </Form.Item>
           <Form.Item<FieldType>
             label="Price"
-            name="price"
+            name="p_price"
             rules={[
               { required: true, message: "Please input  Product price!" },
             ]}
@@ -105,7 +122,7 @@ const ProductAdd: React.FC = () => {
           </Form.Item>
           <Form.Item<FieldType>
             label="Category"
-            name="category"
+            name="p_category"
             rules={[
               { required: true, message: "Please input Product category!" },
             ]}
@@ -121,7 +138,7 @@ const ProductAdd: React.FC = () => {
           </Form.Item>
           <Form.Item<FieldType>
             label="Description"
-            name="description"
+            name="p_description"
             rules={[
               { required: true, message: "Please input Product description!" },
             ]}
@@ -132,9 +149,11 @@ const ProductAdd: React.FC = () => {
           <Form.Item<FieldType>
             label="Image"
             valuePropName="fileList"
-            name="image"
+            name="p_image"
             getValueFromEvent={normFile}
-            rules={[{ required: true, message: "Please input Product image!" }]}
+            rules={[
+              { required: false, message: "Please input Product image!" },
+            ]}
           >
             <Upload action="/upload.do" listType="picture-card">
               <button style={{ border: 0, background: "none" }} type="button">
@@ -145,29 +164,26 @@ const ProductAdd: React.FC = () => {
           </Form.Item>
           <Form.Item<FieldType>
             label="Stock"
-            name="stock"
+            name="p_stock"
             rules={[{ required: true, message: "Please input Product stock!" }]}
           >
             <Slider />
           </Form.Item>
           <Form.Item<FieldType>
             label="ColorPicker"
-            name="color"
+            name="p_color"
             rules={[
               { required: false, message: "Please input Product color!" },
             ]}
           >
-            {/* if you use the ant design colorpicker you cant take an action on this and store that color ina array */}
-            {/* <ColorPicker value={values.newColor} onChange={handleChangeColor} /> */}
-            {/* but you can use this default colorpincker input you can stores the color in to the arrays */}
             <input
               type="color"
-              value={value.newColor}
+              value={value.p_newColor}
               onChange={handleChangeColor}
             />
             <IoAddSharp onClick={handleAddColor} size={25} />
             <div className="flex flex-row gap-3 ">
-              {value.color?.map((color) => (
+              {value.p_color?.map((color) => (
                 <div
                   key={color}
                   style={{
