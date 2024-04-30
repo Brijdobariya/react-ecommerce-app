@@ -1,15 +1,16 @@
-import { useState } from "react";
+
+import { useEffect, useState } from "react";
 import { FormProps } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { ColorPicker, Form, Input, Select, Slider, Upload } from "antd";
 import { IoAddSharp } from "react-icons/io5";
 import axios from "axios";
-
+ 
 import CButton from "../../components/Custom/CButton";
 import { toast } from "react-toastify";
-
+ 
 const { TextArea } = Input;
-
+ 
 type FieldType = {
   p_name?: string;
   p_price?: number;
@@ -23,25 +24,59 @@ type FieldType = {
   p_rating?: number;
   p_stock?: number;
 };
-
+ 
 console.log("outside");
-
+ 
 const normFile = (e: any) => {
   if (Array.isArray(e)) {
     return e;
   }
   return e?.fileList.map((file: any) => file.originFileObj);
 };
-
+ 
 const ProductAdd: React.FC = () => {
   const [form] = Form.useForm();
   const [value, setValues] = useState<FieldType>({
     p_color: [], // Initialize color as an empty array
   });
-
+ 
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
     setValues({ ...values, p_color: value.p_color }); // Merge values and color array
-
+  };
+ 
+  const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (
+    errorInfo
+  ) => {
+    console.log("Failed:", errorInfo);
+    toast.error("Error while adding product");
+  };
+ 
+  const handleChangeColor = (e: any) => {
+    setValues((prevData) => ({
+      ...prevData,
+      p_newColor: e.target.value,
+    }));
+  };
+ 
+  const handleAddColor = () => {
+    if (value.p_newColor) {
+      setValues((prev: any) => ({
+        ...prev,
+        p_color: [...prev.p_color!, prev.p_newColor],
+        p_newColor: "",
+      }));
+    }
+  };
+ 
+  const handleColorRemove = (index) => {
+    setValues((prevData) => ({
+      ...prevData,
+      p_color: prevData.p_color.filter((_, i) => _ !== index),
+    }));
+    console.log("click");
+  };
+ 
+  const handleSubmit = () => {
     try {
       axios
         .post("http://localhost:3000/api/product", value)
@@ -61,34 +96,10 @@ const ProductAdd: React.FC = () => {
       console.log(error);
     }
   };
-
-  const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (
-    errorInfo
-  ) => {
-    console.log("Failed:", errorInfo);
-    toast.error("Error while adding product");
-  };
-
-  const handleChangeColor = (e: any) => {
-    setValues((prevData) => ({
-      ...prevData,
-      p_newColor: e.target.value,
-    }));
-  };
-
-  const handleAddColor = () => {
-    if (value.p_newColor) {
-      setValues((prev: any) => ({
-        ...prev,
-        p_color: [...prev.p_color!, prev.p_newColor],
-        p_newColor: "",
-      }));
-    }
-  };
-
+ 
   console.log("inside function", value.p_color);
   console.log(value);
-
+ 
   return (
     <>
       <div className="flex flex-col w-full h-full justify-center items-center mx-auto ">
@@ -145,7 +156,7 @@ const ProductAdd: React.FC = () => {
           >
             <TextArea rows={4} />
           </Form.Item>
-
+ 
           <Form.Item<FieldType>
             label="Image"
             valuePropName="fileList"
@@ -192,12 +203,16 @@ const ProductAdd: React.FC = () => {
                     height: 40,
                     borderRadius: 100,
                   }}
+                  onClick={() => handleColorRemove(color)}
                 />
               ))}
             </div>
           </Form.Item>
           <Form.Item label="" className="items-center justify-center flex-1 ">
-            <CButton className="bg-zinc-950 hover:bg-zinc-700 text-white">
+            <CButton
+              className="bg-zinc-950 hover:bg-zinc-700 text-white"
+              onClick={handleSubmit}
+            >
               Add Product
             </CButton>
           </Form.Item>
@@ -206,5 +221,6 @@ const ProductAdd: React.FC = () => {
     </>
   );
 };
-
+ 
 export default ProductAdd;
+ 
