@@ -5,10 +5,7 @@ const bodyParser = require("body-parser");
 require("dotenv").config();
 const app = express();
 const { v4: uuidv4 } = require("uuid");
-
-// JSON Web Token
 const jwt = require("jsonwebtoken");
-
 const corsOptions = {
   origin: "http://localhost:5173",
   optionSuccessStatus: 200,
@@ -70,6 +67,29 @@ app.get("/api/p-add", async (req, res) => {
   }
 });
 
+
+app.get("/api/c_product/:category", async (req, res) => {
+  const { category } = req.params;
+  console.log(category);
+  const sql = `SELECT * FROM product WHERE P_category = ?`;
+  
+  try {
+    pool.getConnection((err, connection) => {
+      if (err) throw err;
+      connection.query(sql, [category], (err, result) => {
+        // console.log( connection)
+        connection.release(); // Release the connection back to the pool
+        if (err) {
+          res.status(500).send({ error: err.message });
+        } else {
+          res.status(200).send(result);
+        }
+      });
+    });
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+  }
+});
 app.post("/api/register", async (req, res) => {
   const { username, email, password, mobile } = req.body;
   const sql = `INSERT INTO customer(username, email, password, phone, token) VALUES (?,?,?,?,?)`;
