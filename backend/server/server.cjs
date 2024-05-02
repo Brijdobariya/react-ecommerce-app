@@ -4,6 +4,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 require("dotenv").config();
 const app = express();
+const { v4: uuidv4 } = require("uuid");
 
 // JSON Web Token
 const jwt = require("jsonwebtoken");
@@ -104,7 +105,7 @@ const storage = multer.diskStorage({
     cb(null, "uploads/"); // Specify the upload directory
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname)); // Generate a unique filename
+    cb(null, uuidv4() + path.extname(file.originalname));
   },
 });
 
