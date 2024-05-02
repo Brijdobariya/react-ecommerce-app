@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 
-import { category, carouselItem } from "../utils/index";
+import { carouselItem, category } from "../utils/index";
 
 import { Carousel } from "antd";
-import Carousel1 from "./Carousel";
 import Product from "../components/Product/Product";
+import Carousel1 from "./Carousel";
+
 
 const Home = () => {
   const [toggle, setToggle] = useState(true);
@@ -33,7 +34,7 @@ const Home = () => {
           <div key={item.id} className="m-3">
             <div className="w-52 h-44">
               <img
-                src={item.image}
+                src={item.image }
                 alt=""
                 className="w-full h-full object-contain overflow-hidden mix-blend-multiply"
               />
