@@ -15,11 +15,13 @@ const Product = () => {
 
   return (
     <>
-      {productData.map((product, index) => (
-        <div key={product.p_id}>
-          <ProductCard {...product} p_image={urls[index]} />
-        </div>
-      ))}
+      <div className="flex justify-center items-center gap-1 md:flex md:flex-row  md:gap-4 flex-wrap">
+        {productData.map((product, index) => (
+          <div key={product.p_id}>
+            <ProductCard {...product} p_image={urls[index]} />
+          </div>
+        ))}
+      </div>
     </>
   );
 };

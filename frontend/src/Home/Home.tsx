@@ -28,23 +28,23 @@ const Home = () => {
         </Carousel>
       )}
 
-      <div className="flex flex-1 justify-center overflow-x-hidden mx-auto items-center mt-5">
+      <div className="flex justify-center items-center gap-1 md:flex md:flex-row  md:gap-2">
         {category.map((item: any) => (
           <div key={item.id} className="m-3">
             <div className="w-52 h-44">
               <img
                 src={item.image}
                 alt=""
-                className="w-screen h-full object-cover overflow-hidden mix-blend-multiply"
+                className="w-full h-full object-contain overflow-hidden mix-blend-multiply"
               />
             </div>
             <h1 className="text-xl text-center mt-2">{item.name}</h1>
           </div>
         ))}
       </div>
-      <div className="product py-4 mx-auto ">
+      <div className="product py-4 ">
         <h1 className="text-3xl font-bold py-3">Feature Products</h1>
-        <div className="flex flex-1 gap-4 flex-wrap">
+        <div className="flex justify-center items-center gap-1 md:flex md:flex-row  md:gap-4 flex-wrap">
           <Product />
         </div>
       </div>
