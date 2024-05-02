@@ -2,12 +2,15 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import CButton from "../Custom/CButton";
 import Product from "./Product";
+import { useParams } from "react-router-dom";
 
 interface ProductDetailProps {}
 
 const ProductDetail: React.FC<ProductDetailProps> = () => {
   const [count, setCount] = useState(1);
 
+  const { id } = useParams();
+  console.log(id);
   const handleClickAdd = () => {
     setCount(count + 1);
   };
