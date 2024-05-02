@@ -29,7 +29,7 @@ const router = (
         <Route path="/signup" element={<SignUp />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/product" element={<Product />} />
-        <Route path="/productd" element={<ProductDetail />} />
+        <Route path="/productd/:id" element={<ProductDetail />} />
         <Route path="/add-product" element={<ProductAdd />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/search" element={<Search />} />

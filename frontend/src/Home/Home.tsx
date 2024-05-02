@@ -46,10 +46,6 @@ const Home = () => {
         <h1 className="text-3xl font-bold py-3">Feature Products</h1>
         <div className="flex flex-1 gap-4 flex-wrap">
           <Product />
-          <Product />
-          <Product />
-          <Product />
-          <Product />
         </div>
       </div>
     </>

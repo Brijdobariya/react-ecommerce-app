@@ -1,13 +1,11 @@
 import { Card } from "antd";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface ProductCardProps {
   p_title: string;
   p_price: number;
-  p_priceId: string;
-  p_image: string;
+  p_image: string[] | string;
   p_rating: string;
-  p_ratingCount: number;
   p_description: string;
 }
 
@@ -19,22 +17,29 @@ const ProductCard: React.FC<ProductCardProps> = ({
   p_description,
   p_price,
 }) => {
-  // console.log("product", productData);
-
   const navigate = useNavigate();
   const handleClick = () => {
     navigate("/productd");
   };
+
+  const getFirstImageUrl = () => {
+    if (Array.isArray(p_image)) {
+      return p_image[0];
+    } else {
+      return p_image;
+    }
+  };
+  console.log(getFirstImageUrl());
+
   return (
     <>
       <div>
         <Card hoverable className="w-60" onClick={handleClick}>
-          {/* <NavLink to="/productd"> */}
-          <img src={p_image[0]} alt={""} />
-          <Meta
-            title={p_title}
-            // description="iPhone 15 pro max 512gb with apple m17 chip with fast processing and smooth experience with titanium body"
+          <img
+            src={`../../../../backend/server/uploads/${getFirstImageUrl()}`}
+            alt={p_title}
           />
+          <Meta title={p_title} />
           <p className="line-clamp-2 mt-2">{p_description}</p>
           <div className="flex justify-between gap-2 mt-2">
             <p>
@@ -42,8 +47,14 @@ const ProductCard: React.FC<ProductCardProps> = ({
             </p>
             <p>⭐4.5</p>
           </div>
-          {/* </NavLink> */}
         </Card>
+      </div>
+      <div className="w-full h-full">
+        <img
+          src={`/backend/server/uploads/ecommerce.jpg`}
+          alt={`../../../../backend/server/uploads/ecommerce.jpg`}
+          sizes={"40px"}
+        />
       </div>
     </>
   );

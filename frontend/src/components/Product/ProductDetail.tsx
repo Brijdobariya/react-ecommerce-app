@@ -137,9 +137,11 @@ const ProductDetail: React.FC<ProductDetailProps> = () => {
           </div>
         </div>
       </div>
-      <div className="container mx-auto mt-10">
+      <div className="mt-10">
         <h1 className="text-3xl font-bold text-center">Related Products</h1>
-        <Product />
+        <div className="flex flex-row gap-4 flex-wrap">
+          <Product />
+        </div>
       </div>
     </>
   );

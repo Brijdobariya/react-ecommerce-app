@@ -1,25 +1,25 @@
-import React from "react";
-
+import { useState, useEffect } from "react";
 import { useProductContext } from "../../context/ProductContext";
-
 import ProductCard from "./ProductCard";
-import { NavLink } from "react-router-dom";
 
 const Product = () => {
   const { productData } = useProductContext();
+  const [urls, setUrls] = useState([]);
+
+  useEffect(() => {
+    const updatedUrls = productData.map((product) =>
+      product.p_image.split(",")
+    );
+    setUrls(updatedUrls);
+  }, [productData]);
 
   return (
     <>
-      <div className=" mt-10">
-        {/* <h1 className="text-3xl font-bold pb-5">Related Products</h1> */}
-        {/* <NavLink to="/productd"> */}
-        {productData.map((data, i) => (
-          <div key={i}>
-            <ProductCard {...data} />
-          </div>
-        ))}
-        {/* </NavLink> */}
-      </div>
+      {productData.map((product, index) => (
+        <div key={product.p_id}>
+          <ProductCard {...product} p_image={urls[index]} />
+        </div>
+      ))}
     </>
   );
 };
