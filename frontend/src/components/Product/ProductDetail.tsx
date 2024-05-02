@@ -5,25 +5,29 @@ import { useProductContext } from "../../context/ProductContext";
 import CButton from "../Custom/CButton";
 import Product from "./Product";
 
-interface ProductDetailProps {}
+interface ProductDetailProps {
+  p_id: string;
+  p_title: string;
+  p_price: number;
+  p_image: string[] | string;
+  p_rating: string;
+  p_description: string;
+}
 
 const ProductDetail: React.FC<ProductDetailProps> = () => {
   const [count, setCount] = useState(1);
   const [colors, setColors] = useState([]);
-
-  const productDet = [];
+  const [url, setUrl] = useState([]);
+  const [mainImg, setMainImage] = useState("");
 
   const { id } = useParams();
-  // console.log(id);
 
   const { productData } = useProductContext();
   const product = productData.filter((item) => item.p_id == id);
-  productDet.push(...product);
-  // console.log(productDet);
 
   const handleClickAdd = () => {
-    if(count === Number(productDet.map(item => item.p_stock))){
-      toast.error("You can't add more than 10 items");
+    if (count === Number(product.map((item) => item.p_stock))) {
+      toast.error(`You can't add more items`);
       return;
     }
     setCount(count + 1);
@@ -36,58 +40,60 @@ const ProductDetail: React.FC<ProductDetailProps> = () => {
   };
 
   useEffect(() => {
-    const itemColors = productDet.flatMap((item) => {
+    const itemColors = product.flatMap((item) => {
       if (item.p_color) {
         return item.p_color.split(",");
       }
       return [];
     });
+    const updatedUrls = product.flatMap((url) => {
+      if (url.p_image) {
+        return url.p_image.split(",");
+      }
+    });
 
     setColors(itemColors);
+    setUrl(updatedUrls);
+    setMainImage(updatedUrls[0]);
   }, []);
 
-  console.log(colors);
+  const handleChangeImage = (img) => {
+    setMainImage(img);
+  };
 
   return (
     <>
       <div className="container mx-auto py-10">
-        {productDet.map((item) => (
+        {product.map((item) => (
           <div className="grid md:grid-cols-2 grid-cols-1 md:gap-10 gap-4">
             <div className="left flex md:flex-row flex-col-reverse gap-4">
               {/* product images */}
               <div className="left-image-list flex md:flex-col flex-row gap-5">
-                <div className="w-20 h-20 border-2 border-gray-400">
-                  <img
-                    src="https://m.media-amazon.com/images/I/81Os1SDWpcL._SX679_.jpg"
-                    alt=""
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="w-20 h-20 border-2 border-gray-400">
-                  <img
-                    src="https://m.media-amazon.com/images/I/81Os1SDWpcL._SX679_.jpg"
-                    alt=""
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="w-20 h-20 border-2 border-gray-400">
-                  <img
-                    src="https://m.media-amazon.com/images/I/81Os1SDWpcL._SX679_.jpg"
-                    alt=""
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="w-20 h-20 border-2 border-gray-400">
-                  <img
-                    src="https://m.media-amazon.com/images/I/81Os1SDWpcL._SX679_.jpg"
-                    alt=""
-                    className="w-full h-full object-cover"
-                  />
-                </div>
+                {url.map((img, i) => (
+                  <div className="w-20 h-20 border-2 border-gray-400">
+                    <img
+                      key={i}
+                      src={
+                        new URL(
+                          `../../../../backend/server/uploads/${img}`,
+                          import.meta.url
+                        ).href
+                      }
+                      onClick={() => handleChangeImage(img)}
+                      alt=""
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                ))}
               </div>
               <div className="w-full">
                 <img
-                  src="https://m.media-amazon.com/images/I/81Os1SDWpcL._SX679_.jpg"
+                  src={
+                    new URL(
+                      `../../../../backend/server/uploads/${mainImg}`,
+                      import.meta.url
+                    ).href
+                  }
                   alt=""
                   className="w-full h-96 object-contain"
                 />
