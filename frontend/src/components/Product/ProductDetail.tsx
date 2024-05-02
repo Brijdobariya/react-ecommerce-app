@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useProductContext } from "../../context/ProductContext";
@@ -16,60 +16,77 @@ interface ProductDetailProps {
 
 const ProductDetail: React.FC<ProductDetailProps> = () => {
   const [count, setCount] = useState(1);
-  const [colors, setColors] = useState([]);
-  const [url, setUrl] = useState([]);
   const [mainImg, setMainImage] = useState("");
 
   const { id } = useParams();
 
   const { productData } = useProductContext();
-  const product = productData.filter((item) => item.p_id == id);
+  // use of useMemo hook is the same as useCallback hook and it is used to prevent unnecessary re-renders and memoize productdata
+  const product = useMemo(
+    () => productData.filter((item) => item.p_id == id),
+    [productData, id]
+  );
 
-  const handleClickAdd = () => {
-    if (count === Number(product.map((item) => item.p_stock))) {
-      toast.error(`You can't add more items`);
-      return;
-    }
-    setCount(count + 1);
-  };
-  const handleClickRemove = () => {
+  const handleClickAdd = useCallback(
+    (itemId) => {
+      const stockCount = product.find((item) => item.p_id === itemId)?.p_stock;
+      if (count === Number(stockCount)) {
+        toast.error(`You can't add more items`);
+        return;
+      }
+      setCount(count + 1);
+    },
+    [count, product]
+  );
+
+  const handleClickRemove = useCallback(() => {
     if (count === 1) {
       return;
     }
     setCount(count - 1);
-  };
+  }, [count]);
+
+  const itemColors = useMemo(
+    () =>
+      product.flatMap((item) => {
+        if (item.p_color) {
+          return item.p_color.split(",");
+        }
+        return [];
+      }),
+    [product]
+  );
+
+  const updatedUrls = useMemo(
+    () =>
+      product.flatMap((url) => {
+        if (url.p_image) {
+          return url.p_image.split(",");
+        }
+        return [];
+      }),
+    [product]
+  );
 
   useEffect(() => {
-    const itemColors = product.flatMap((item) => {
-      if (item.p_color) {
-        return item.p_color.split(",");
-      }
-      return [];
-    });
-    const updatedUrls = product.flatMap((url) => {
-      if (url.p_image) {
-        return url.p_image.split(",");
-      }
-    });
+    if (updatedUrls.length > 0) {
+      setMainImage(updatedUrls[0]);
+    }
+  }, [updatedUrls]);
 
-    setColors(itemColors);
-    setUrl(updatedUrls);
-    setMainImage(updatedUrls[0]);
-  }, []);
-
-  const handleChangeImage = (img) => {
+  const handleChangeImage = useCallback((img) => {
     setMainImage(img);
-  };
+  }, []);
 
   return (
     <>
-      <div className="container mx-auto py-10">
+      <div className="container flex justify-center items-center py-10">
         {product.map((item) => (
           <div className="grid md:grid-cols-2 grid-cols-1 md:gap-10 gap-4">
             <div className="left flex md:flex-row flex-col-reverse gap-4">
               {/* product images */}
               <div className="left-image-list flex md:flex-col flex-row gap-5">
-                {url.map((img, i) => (
+                {updatedUrls.map((img, i) => (
                   <div className="w-20 h-20 border-2 border-gray-400">
                     <img
                       key={i}
@@ -101,10 +118,10 @@ const ProductDetail: React.FC<ProductDetailProps> = () => {
             </div>
             <div className="right">
               <div className="flex flex-col gap-4">
-                <h1 className="text-3xl md:text-4xl font-bold">
+                <h1 className="text-xl  md:text-3xl font-semibold">
                   {item.p_title}
                 </h1>
-                <div className="description text-sm md:text-base">
+                <div className="description  text-sm md:text-base line-clamp-3 md:line-clamp-4">
                   {item.p_description}
                 </div>
                 <div className="p-rating text-lg">
@@ -120,7 +137,7 @@ const ProductDetail: React.FC<ProductDetailProps> = () => {
                   </p>
                 </div>
                 <div className="color flex gap-3">
-                  {colors.map((color) => (
+                  {itemColors.map((color) => (
                     <button
                       key={color}
                       style={{ backgroundColor: color }}
@@ -162,7 +179,7 @@ const ProductDetail: React.FC<ProductDetailProps> = () => {
       </div>
       <div className="mt-10">
         <h1 className="text-3xl font-bold text-center">Related Products</h1>
-        <div className="flex flex-row gap-4 flex-wrap">
+        <div className="flex flex-row gap-4 flex-wrap mt-5 ">
           <Product />
         </div>
       </div>

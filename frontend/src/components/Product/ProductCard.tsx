@@ -27,14 +27,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
       return p_image;
     }
   };
-  // console.log(getFirstImageUrl());
-
-  // const img = `../../../backend/server/uploads/${p_image[0]}`;
 
   return (
     <>
       <div>
-        {/* <NavLink to={"/productd/:id"}> */}
         <Card hoverable className="w-60">
           <img
             src={
@@ -43,7 +39,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
                 import.meta.url
               ).href
             }
-            className="w-full h-48 overflow-hidden object-contain"
+            className="w-full h-48 overflow-hidden object-contain mb-3"
             alt={p_title}
           />
           <Meta title={p_title} />
@@ -55,7 +51,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
             <p>⭐4.5</p>
           </div>
         </Card>
-        {/* </NavLink> */}
       </div>
     </>
   );
