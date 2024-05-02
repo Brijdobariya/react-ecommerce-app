@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useProductContext } from "../../context/ProductContext";
@@ -17,6 +17,8 @@ interface ProductDetailProps {
 const ProductDetail: React.FC<ProductDetailProps> = () => {
   const [count, setCount] = useState(1);
   const [mainImg, setMainImage] = useState("");
+
+  const topRef = useRef(null);
 
   const { id } = useParams();
 
@@ -78,9 +80,16 @@ const ProductDetail: React.FC<ProductDetailProps> = () => {
     setMainImage(img);
   }, []);
 
+  const scrollToTop = () => {
+    topRef.current.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <>
-      <div className="container flex justify-center items-center py-10">
+      <div
+        className="container flex justify-center items-center py-10"
+        ref={topRef}
+      >
         {product.map((item) => (
           <div className="grid md:grid-cols-2 grid-cols-1 md:gap-10 gap-4">
             <div className="left flex md:flex-row flex-col-reverse gap-4">
@@ -179,7 +188,10 @@ const ProductDetail: React.FC<ProductDetailProps> = () => {
       </div>
       <div className="mt-10">
         <h1 className="text-3xl font-bold text-center">Related Products</h1>
-        <div className="flex flex-row gap-4 flex-wrap mt-5 ">
+        <div
+          className="flex flex-row gap-4 flex-wrap mt-5 "
+          onClick={scrollToTop}
+        >
           <Product />
         </div>
       </div>
